@@ -1,0 +1,14 @@
+rules_version = '2';
+
+// BiKareBırak — Storage güvenlik kuralları
+// photos/{slug}/{dosya} altına anonim yükleme + herkese açık okuma.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /photos/{slug}/{fileName} {
+      allow read: if true;
+      // 20MB sınırı ve sadece görsel tipleri
+      allow create: if request.resource.size < 20 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+    }
+  }
+}

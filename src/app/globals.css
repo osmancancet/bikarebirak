@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/*
+  BiKareBırak — Düğün teması
+  Beyaz / kırık beyaz / bej ve altın - rose-gold tonları
+*/
+
+@theme {
+  --color-cream: #fdfbf7;
+  --color-ivory: #f7f1e8;
+  --color-beige: #ede3d3;
+  --color-sand: #d9c7ad;
+  --color-gold: #c2a14d;
+  --color-gold-soft: #d4b878;
+  --color-rose-gold: #b76e79;
+  --color-ink: #3b362f;
+  --color-ink-soft: #6f675b;
+
+  --color-background: #fdfbf7;
+  --color-foreground: #3b362f;
+
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+}
+
+:root {
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* İnce altın ayraç */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-gold) 50%,
+    transparent
+  );
+}
+
+/* Altın metin gradyanı */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #b8935f, #d4b878 50%, #b76e79);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Şık kart yüzeyi */
+.surface-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-beige);
+}
+
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 0.6s ease forwards;
+}

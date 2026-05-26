@@ -1,0 +1,27 @@
+rules_version = '2';
+
+// BiKareBırak — Firestore güvenlik kuralları
+// Concierge modeli: kullanıcı kaydı yok. Misafirler anonim olarak LCV ve foto ekler.
+// Çift (couples) yazımı yalnızca Admin SDK ile yapılır (kurallar bypass edilir).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Çiftler: herkes okuyabilir (davetiye sayfası). İstemciden yazma kapalı.
+    match /couples/{coupleId} {
+      allow read: if true;
+      allow write: if false; // sadece Admin SDK
+    }
+
+    // LCV: herkes ekleyebilir (form) ve okuyabilir. Güncelleme/silme kapalı.
+    match /guests_rsvp/{rsvpId} {
+      allow read, create: if true;
+      allow update, delete: if false;
+    }
+
+    // Fotoğraflar: herkes ekleyebilir (yükleme) ve okuyabilir (galeri).
+    match /photos/{photoId} {
+      allow read, create: if true;
+      allow update, delete: if false;
+    }
+  }
+}
