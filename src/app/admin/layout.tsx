@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   ScrollText,
   Megaphone,
+  Image as ImageIcon,
 } from "lucide-react";
 
 export default async function AdminLayout({
@@ -43,6 +44,13 @@ export default async function AdminLayout({
             BiKareBırak · Yönetim
           </Link>
           <div className="flex items-center gap-1">
+            <Link
+              href="/admin/medya"
+              className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm text-ink-soft transition-colors hover:bg-ivory hover:text-ink"
+            >
+              <ImageIcon className="h-4 w-4" />
+              Medya
+            </Link>
             <Link
               href="/admin/reklamlar"
               className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm text-ink-soft transition-colors hover:bg-ivory hover:text-ink"

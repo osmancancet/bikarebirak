@@ -26,8 +26,8 @@ export function RetentionCard({
 
   const options: Array<{ days: number | null; label: string; price?: string }> = [
     { days: null, label: "7 gün (varsayılan)" },
-    { days: 30, label: "30 gün", price: "+1.500 ₺" },
-    { days: 365, label: "1 yıl", price: "+4.000 ₺" },
+    { days: 30, label: "30 gün", price: "+10.000 ₺" },
+    { days: 365, label: "1 yıl", price: "+50.000 ₺" },
   ];
 
   return (
