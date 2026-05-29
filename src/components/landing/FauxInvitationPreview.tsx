@@ -1,6 +1,6 @@
 /**
- * Hero mockup içinde gösterilen sahte davetiye önizlemesi.
- * Telefon kasası içinde küçültülmüş "Aslı & Mert" sahte davetiyesi.
+ * Hero mockup içinde gösterilen davetiye önizlemesi.
+ * Telefon kasası içinde küçültülmüş "Şevval & Abdurrahman" davetiyesi.
  * Server-safe: ikon yok, sadece tipografi + CSS.
  */
 export function FauxInvitationPreview() {
@@ -9,17 +9,17 @@ export function FauxInvitationPreview() {
       <p className="text-[8px] uppercase tracking-[0.35em] text-gold">
         Evleniyoruz
       </p>
-      <p className="mt-3 font-serif text-2xl leading-tight text-ink">
-        Aslı
+      <p className="mt-3 font-serif text-xl leading-tight text-ink">
+        Abdurrahman
         <span className="mx-1.5 text-gold-gradient">&amp;</span>
-        Mert
+        Şevval
       </p>
       <div className="my-2 flex items-center gap-1.5">
         <span className="h-px w-6 bg-gradient-to-r from-transparent to-gold/70" />
         <span className="text-[10px] text-gold">◆</span>
         <span className="h-px w-6 bg-gradient-to-l from-transparent to-gold/70" />
       </div>
-      <p className="text-[9px] text-ink-soft">12 Haziran 2026</p>
+      <p className="text-[9px] text-ink-soft">28 Ağustos 2026</p>
 
       {/* mini geri sayım */}
       <div className="mt-3 flex gap-1">

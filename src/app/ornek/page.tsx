@@ -25,15 +25,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-// Demo veri — sahte çift "Aslı & Mert"
+// Demo veri — Şevval & Abdurrahman
 const DEMO = {
-  groom_name: "Mert",
-  bride_name: "Aslı",
-  wedding_date: new Date(Date.now() + 60 * 86400 * 1000).toISOString(),
-  venue_name: "Sait Halim Paşa Yalısı, İstanbul",
-  venue_maps_url: "https://maps.google.com/?q=Sait+Halim+Pasa+Yalisi",
+  groom_name: "Abdurrahman",
+  bride_name: "Şevval",
+  wedding_date: "2026-08-28T18:00:00.000+03:00",
+  venue_name: "İstanbul",
+  venue_maps_url: "https://maps.google.com/?q=Istanbul",
   welcome_message:
-    "Mutluluğumuzu sizlerle paylaşmaktan onur duyarız. Sizleri aramızda görmek bizim için çok kıymetli.",
+    "Mutluluğumuzu sizlerle paylaşmaktan onur duyarız. Birlikte yazacağımız bu yeni sayfada sizleri aramızda görmek bizim için çok özel olacak.",
   dress_code: "Smart Casual · Beyazdan kaçınılması rica olunur",
   program_items: [
     { time: "17:30", label: "Misafir Kabulü" },
