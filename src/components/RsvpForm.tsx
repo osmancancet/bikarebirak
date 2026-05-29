@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { getDb } from "@/lib/firebase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/card";
@@ -12,6 +10,7 @@ export function RsvpForm({ coupleId }: { coupleId: string }) {
   const [fullName, setFullName] = useState("");
   const [attending, setAttending] = useState<boolean | null>(null);
   const [guestCount, setGuestCount] = useState(1);
+  const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -23,16 +22,28 @@ export function RsvpForm({ coupleId }: { coupleId: string }) {
 
     setStatus("sending");
     try {
-      await addDoc(collection(getDb(), "guests_rsvp"), {
-        couple_id: coupleId,
-        full_name: fullName.trim(),
-        attending,
-        guest_count: attending ? guestCount : 0,
-        created_at: serverTimestamp(),
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          couple_id: coupleId,
+          full_name: fullName.trim(),
+          attending,
+          guest_count: attending ? guestCount : 0,
+          honeypot,
+        }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setStatus("idle");
+        setError(
+          data?.error ?? "Bir şeyler ters gitti, tekrar deneyin."
+        );
+        return;
+      }
     } catch {
       setStatus("idle");
-      setError("Bir şeyler ters gitti, tekrar deneyin.");
+      setError("Bağlantı hatası, tekrar deneyin.");
       return;
     }
     setStatus("done");
@@ -54,6 +65,17 @@ export function RsvpForm({ coupleId }: { coupleId: string }) {
 
   return (
     <form onSubmit={submit} className="space-y-5">
+      {/* Honeypot: insan dolduramaz, bot dolduruyorsa sessizce yutarız */}
+      <input
+        type="text"
+        name="rsvp_hp"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+      />
       <div>
         <Label htmlFor="full_name">Ad Soyad</Label>
         <Input

@@ -12,16 +12,40 @@ service cloud.firestore {
       allow write: if false; // sadece Admin SDK
     }
 
-    // LCV: herkes ekleyebilir (form) ve okuyabilir. Güncelleme/silme kapalı.
+    // LCV: client'tan yazma KAPALI — sadece /api/rsvp üzerinden (Admin SDK).
+    // Bu, rate-limit ve honeypot'un atlanmasını engeller. Okuma açık (admin/portal).
     match /guests_rsvp/{rsvpId} {
-      allow read, create: if true;
-      allow update, delete: if false;
+      allow read: if true;
+      allow write: if false;
     }
 
     // Fotoğraflar: herkes ekleyebilir (yükleme) ve okuyabilir (galeri).
     match /photos/{photoId} {
       allow read, create: if true;
       allow update, delete: if false;
+    }
+
+    // Anı defteri: client'tan yazma KAPALI — sadece /api/guest-messages üzerinden.
+    // Okuma açık (galeri/portal/realtime onSnapshot).
+    match /guest_messages/{messageId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Audit log (Faz G): yalnız Admin SDK.
+    match /audit_log/{entryId} {
+      allow read, write: if false;
+    }
+
+    // Rate-limit pencereleri (Faz G): yalnız Admin SDK.
+    match /rate_limits/{key} {
+      allow read, write: if false;
+    }
+
+    // Vendor reklamları (Faz M): herkes okuyabilir, yazma yalnız Admin SDK.
+    match /vendors/{id} {
+      allow read: if true;
+      allow write: if false;
     }
   }
 }

@@ -30,6 +30,44 @@
   --foreground: var(--color-ink);
 }
 
+/* Tema varyantları (data-theme attribute ile uygulanır) */
+[data-theme="romantic-rose"] {
+  --color-cream: #fdf5f6;
+  --color-ivory: #faedee;
+  --color-beige: #ebd5d8;
+  --color-sand: #d9b5ba;
+  --color-gold: #b76e79;
+  --color-gold-soft: #d999a3;
+  --color-rose-gold: #c2a14d;
+  --color-ink: #4a3338;
+  --color-ink-soft: #7a5d62;
+  --background: #fdf5f6;
+}
+
+[data-theme="modern-beige"] {
+  --color-cream: #f7f3eb;
+  --color-ivory: #f0eae0;
+  --color-beige: #ddd2c0;
+  --color-sand: #c2b59a;
+  --color-gold: #8c7853;
+  --color-gold-soft: #b8a482;
+  --color-rose-gold: #6f675b;
+  --color-ink: #3a342a;
+  --color-ink-soft: #6c6354;
+  --background: #f7f3eb;
+}
+
+/* Kapak filtresi varyantları */
+.cover-filter-bw {
+  filter: grayscale(1);
+}
+.cover-filter-vintage {
+  filter: sepia(0.4) saturate(0.85) hue-rotate(-8deg);
+}
+.cover-filter-soft {
+  filter: brightness(1.05) contrast(0.95) saturate(0.9);
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
 }
@@ -91,4 +129,64 @@ h3,
 
 .animate-float-up {
   animation: float-up 0.6s ease forwards;
+}
+
+@keyframes polaroid-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.polaroid-track {
+  width: max-content;
+  animation: polaroid-scroll 60s linear infinite;
+}
+
+/* Blog markdown gövdesi */
+.blog-body h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  color: var(--color-ink);
+}
+.blog-body h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+.blog-body p {
+  margin: 1rem 0;
+  line-height: 1.8;
+  color: var(--color-ink-soft);
+}
+.blog-body ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+  color: var(--color-ink-soft);
+}
+.blog-body ul li {
+  margin: 0.4rem 0;
+}
+.blog-body strong {
+  color: var(--color-ink);
+}
+.blog-body a {
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-decoration-color: rgba(194, 161, 77, 0.4);
+}
+.blog-body a:hover {
+  color: var(--color-rose-gold);
+}
+.blog-body code {
+  background: var(--color-ivory);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.9em;
 }

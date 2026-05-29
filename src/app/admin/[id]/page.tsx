@@ -1,9 +1,20 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCoupleById, getRsvps, getPhotoCount } from "@/lib/queries";
+import { randomBytes } from "crypto";
+import {
+  getCoupleById,
+  getRsvps,
+  getPhotoCount,
+  getGuestMessages,
+} from "@/lib/queries";
+import { getAdminDb } from "@/lib/firebase/admin";
 import { Card } from "@/components/ui/card";
 import { formatWeddingDate } from "@/lib/utils";
 import { QrPanel } from "./QrPanel";
+import { DeleteCoupleButton } from "./DeleteCoupleButton";
+import { PortalLinkCard } from "./PortalLinkCard";
+import { RetentionCard } from "./RetentionCard";
+import { InviteShareCard } from "@/components/InviteShareCard";
 import {
   ArrowLeft,
   Calendar,
@@ -11,6 +22,11 @@ import {
   Users,
   Check,
   X,
+  Printer,
+  Pencil,
+  Images,
+  FileDown,
+  BookHeart,
   Image as ImageIcon,
 } from "lucide-react";
 
@@ -22,14 +38,25 @@ export default async function CoupleDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const couple = await getCoupleById(id);
+  let couple = await getCoupleById(id);
   if (!couple) notFound();
 
-  const [rsvps, photoCount] = await Promise.all([
+  // Eski çiftler için portal_token lazy backfill
+  if (!couple.portal_token) {
+    const token = randomBytes(16).toString("base64url");
+    await getAdminDb().collection("couples").doc(id).update({
+      portal_token: token,
+    });
+    couple = { ...couple, portal_token: token };
+  }
+
+  const [rsvps, photoCount, guestMessages] = await Promise.all([
     getRsvps(id),
     getPhotoCount(id),
+    getGuestMessages(id, 10),
   ]);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const portalUrl = `${baseUrl}/p/${couple.slug}?key=${couple.portal_token}`;
 
   const attending = rsvps.filter((r) => r.attending);
   const notAttending = rsvps.filter((r) => !r.attending);
@@ -45,19 +72,48 @@ export default async function CoupleDetailPage({
         Tüm çiftler
       </Link>
 
-      <header>
-        <h1 className="text-4xl font-medium">
-          {couple.groom_name} & {couple.bride_name}
-        </h1>
-        <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-soft">
-          <span className="flex items-center gap-1.5">
-            <Calendar className="h-4 w-4" />
-            {formatWeddingDate(couple.wedding_date)}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <MapPin className="h-4 w-4" />
-            {couple.venue_name}
-          </span>
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-4xl font-medium">
+            {couple.groom_name} & {couple.bride_name}
+          </h1>
+          <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-soft">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="h-4 w-4" />
+              {formatWeddingDate(couple.wedding_date)}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-4 w-4" />
+              {couple.venue_name}
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={`/admin/${couple.id}/edit`}
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-sand bg-white px-5 text-sm font-medium text-ink transition-colors hover:bg-ivory"
+          >
+            <Pencil className="h-4 w-4" />
+            Düzenle
+          </Link>
+          <Link
+            href={`/admin/${couple.id}/fotograflar`}
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-sand bg-white px-5 text-sm font-medium text-ink transition-colors hover:bg-ivory"
+          >
+            <Images className="h-4 w-4" />
+            Fotoğraflar
+          </Link>
+          <a
+            href={`/api/admin/couples/${couple.id}/rsvp.csv`}
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-sand bg-white px-5 text-sm font-medium text-ink transition-colors hover:bg-ivory"
+          >
+            <FileDown className="h-4 w-4" />
+            LCV (CSV)
+          </a>
+          <DeleteCoupleButton
+            coupleId={couple.id}
+            coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+          />
         </div>
       </header>
 
@@ -71,13 +127,40 @@ export default async function CoupleDetailPage({
 
       {/* QR Kodlar */}
       <section>
-        <h2 className="mb-4 text-2xl font-medium">QR Kodlar & Linkler</h2>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-2xl font-medium">QR Kodlar & Linkler</h2>
+          <Link
+            href={`/admin/${couple.id}/masa`}
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-gradient-to-br from-[#c2a14d] to-[#b8935f] px-5 text-sm font-medium text-white shadow-sm transition-all hover:brightness-105 active:scale-[0.98]"
+          >
+            <Printer className="h-4 w-4" />
+            Masa Kartlarını Yazdır
+          </Link>
+        </div>
         <QrPanel
           slug={couple.slug}
           baseUrl={baseUrl}
           coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
         />
       </section>
+
+      {/* Çift portalı linki */}
+      <PortalLinkCard
+        coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+        portalUrl={portalUrl}
+      />
+
+      {/* Davetiye paylaşım şablonu */}
+      <InviteShareCard
+        coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+        inviteUrl={`${baseUrl}/${couple.slug}`}
+      />
+
+      {/* Arşiv süresi (premium add-on) */}
+      <RetentionCard
+        coupleId={couple.id}
+        currentDays={couple.retention_days}
+      />
 
       {/* LCV Listesi */}
       <section>
@@ -113,6 +196,26 @@ export default async function CoupleDetailPage({
           </Card>
         )}
       </section>
+
+      {/* Anı Defteri Mesajları */}
+      {guestMessages.length > 0 && (
+        <section>
+          <h2 className="mb-4 flex items-center gap-2 text-2xl font-medium">
+            <BookHeart className="h-5 w-5 text-gold" />
+            Anı Defteri Mesajları ({guestMessages.length})
+          </h2>
+          <Card className="divide-y divide-beige overflow-hidden">
+            {guestMessages.map((m) => (
+              <div key={m.id} className="px-5 py-4">
+                <p className="text-sm font-medium">{m.full_name}</p>
+                <p className="mt-1 whitespace-pre-wrap font-serif italic text-ink-soft">
+                  “{m.message}”
+                </p>
+              </div>
+            ))}
+          </Card>
+        </section>
+      )}
     </div>
   );
 }

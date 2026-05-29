@@ -1,7 +1,19 @@
 import { getAdminDb } from "@/lib/firebase/admin";
-import type { Couple, GuestRsvp, Photo } from "@/lib/types";
+import type {
+  Couple,
+  GuestRsvp,
+  Photo,
+  GuestMessage,
+  ProgramItem,
+  StoryItem,
+  ThemeName,
+  CoverFilter,
+  Vendor,
+  VendorCategory,
+} from "@/lib/types";
 import type {
   DocumentData,
+  Query,
   QueryDocumentSnapshot,
   Timestamp,
 } from "firebase-admin/firestore";
@@ -27,6 +39,28 @@ function mapCouple(doc: QueryDocumentSnapshot<DocumentData>): Couple {
     venue_maps_url: d.venue_maps_url ?? null,
     welcome_message: d.welcome_message ?? null,
     cover_image_url: d.cover_image_url ?? null,
+    portal_token: d.portal_token ?? "",
+    dress_code: d.dress_code ?? null,
+    program_items: Array.isArray(d.program_items)
+      ? (d.program_items as ProgramItem[])
+      : null,
+    music_url: d.music_url ?? null,
+    music_label: d.music_label ?? null,
+    story_items: Array.isArray(d.story_items)
+      ? (d.story_items as StoryItem[])
+      : null,
+    engagement_photos: Array.isArray(d.engagement_photos)
+      ? (d.engagement_photos as string[])
+      : null,
+    theme: (typeof d.theme === "string" ? d.theme : null) as ThemeName | null,
+    cover_filter: (typeof d.cover_filter === "string"
+      ? d.cover_filter
+      : null) as CoverFilter | null,
+    favorite_photo_ids: Array.isArray(d.favorite_photo_ids)
+      ? (d.favorite_photo_ids as string[])
+      : null,
+    retention_days:
+      typeof d.retention_days === "number" ? d.retention_days : null,
     created_at: toIso(d.created_at),
   };
 }
@@ -50,6 +84,8 @@ function mapPhoto(doc: QueryDocumentSnapshot<DocumentData>): Photo {
     couple_id: d.couple_id,
     storage_path: d.storage_path,
     public_url: d.public_url,
+    uploader_name: d.uploader_name ?? null,
+    like_count: typeof d.like_count === "number" ? d.like_count : 0,
     created_at: toIso(d.created_at),
   };
 }
@@ -127,6 +163,57 @@ export async function getAllCouples(): Promise<Couple[]> {
   }
 }
 
+/** Verilen id'lere sahip foto kayıtlarını batch'lerde çeker (Firestore 'in' max 30). */
+export async function getPhotosByIds(ids: string[]): Promise<Photo[]> {
+  if (ids.length === 0) return [];
+  const db = getAdminDb();
+  const result: Photo[] = [];
+  for (let i = 0; i < ids.length; i += 30) {
+    const chunk = ids.slice(i, i + 30);
+    try {
+      const snap = await db
+        .collection("photos")
+        .where("__name__", "in", chunk)
+        .get();
+      result.push(...snap.docs.map(mapPhoto));
+    } catch (error) {
+      console.error("getPhotosByIds error:", error);
+    }
+  }
+  // Çiftin verdiği sırada döndür
+  const byId = new Map(result.map((p) => [p.id, p] as const));
+  return ids.map((id) => byId.get(id)).filter((p): p is Photo => !!p);
+}
+
+/** Bir çiftin anı defteri mesajlarını (yeniden eskiye) getirir. */
+export async function getGuestMessages(
+  coupleId: string,
+  limit?: number
+): Promise<GuestMessage[]> {
+  try {
+    const snap = await getAdminDb()
+      .collection("guest_messages")
+      .where("couple_id", "==", coupleId)
+      .get();
+    const items = snap.docs.map((doc) => {
+      const d = doc.data();
+      return {
+        id: doc.id,
+        couple_id: d.couple_id,
+        full_name: d.full_name,
+        message: d.message,
+        heart_count: typeof d.heart_count === "number" ? d.heart_count : 0,
+        created_at: toIso(d.created_at),
+      } as GuestMessage;
+    });
+    items.sort((a, b) => b.created_at.localeCompare(a.created_at));
+    return typeof limit === "number" ? items.slice(0, limit) : items;
+  } catch (error) {
+    console.error("getGuestMessages error:", error);
+    return [];
+  }
+}
+
 /** Bir çiftin yüklenen fotoğraf sayısını döndürür. */
 export async function getPhotoCount(coupleId: string): Promise<number> {
   try {
@@ -139,5 +226,81 @@ export async function getPhotoCount(coupleId: string): Promise<number> {
   } catch (error) {
     console.error("getPhotoCount error:", error);
     return 0;
+  }
+}
+
+function mapVendor(doc: QueryDocumentSnapshot<DocumentData>): Vendor {
+  const d = doc.data();
+  return {
+    id: doc.id,
+    name: d.name ?? "",
+    category: (d.category ?? "other") as VendorCategory,
+    city: d.city ?? null,
+    description: d.description ?? "",
+    logo_url: d.logo_url ?? null,
+    website_url: d.website_url ?? "",
+    whatsapp: d.whatsapp ?? null,
+    weight: typeof d.weight === "number" ? d.weight : 5,
+    active: d.active !== false,
+    expires_at: typeof d.expires_at === "string" ? d.expires_at : null,
+    created_at: toIso(d.created_at),
+  };
+}
+
+/** Aktif (ve süresi dolmamış) vendor'ları weight desc sıralı getirir. */
+export async function getActiveVendors(opts: {
+  category?: VendorCategory;
+  city?: string;
+  limit?: number;
+} = {}): Promise<Vendor[]> {
+  try {
+    let q: Query<DocumentData> = getAdminDb()
+      .collection("vendors")
+      .where("active", "==", true);
+    if (opts.category) {
+      q = q.where("category", "==", opts.category);
+    }
+    const snap = await q.get();
+    const now = new Date().toISOString();
+    let items = snap.docs
+      .map(mapVendor)
+      .filter((v) => !v.expires_at || v.expires_at >= now);
+    if (opts.city) {
+      const lower = opts.city.toLocaleLowerCase("tr-TR");
+      items = items.filter(
+        (v) =>
+          !v.city || v.city.toLocaleLowerCase("tr-TR").includes(lower)
+      );
+    }
+    items.sort((a, b) => b.weight - a.weight);
+    return typeof opts.limit === "number" ? items.slice(0, opts.limit) : items;
+  } catch (error) {
+    console.error("getActiveVendors error:", error);
+    return [];
+  }
+}
+
+/** Tüm vendor'ları (active dahil) admin listesi için getirir. */
+export async function getAllVendors(): Promise<Vendor[]> {
+  try {
+    const snap = await getAdminDb().collection("vendors").get();
+    return snap.docs
+      .map(mapVendor)
+      .sort((a, b) => b.created_at.localeCompare(a.created_at));
+  } catch (error) {
+    console.error("getAllVendors error:", error);
+    return [];
+  }
+}
+
+/** Tek vendor'ı id ile getirir (edit page). */
+export async function getVendorById(id: string): Promise<Vendor | null> {
+  try {
+    const doc = await getAdminDb().collection("vendors").doc(id).get();
+    if (!doc.exists) return null;
+    return mapVendor(doc as QueryDocumentSnapshot<DocumentData>);
+  } catch (error) {
+    console.error("getVendorById error:", error);
+    return null;
   }
 }

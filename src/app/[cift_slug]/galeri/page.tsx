@@ -21,14 +21,19 @@ export async function generateMetadata({
 
 export default async function GalleryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ cift_slug: string }>;
+  searchParams: Promise<{ slideshow?: string; interval?: string }>;
 }) {
   const { cift_slug } = await params;
+  const { slideshow, interval } = await searchParams;
   const couple = await getCoupleBySlug(cift_slug);
   if (!couple) notFound();
 
   const photos = await getPhotos(couple.id);
+  const isSlideshow = slideshow === "1" || slideshow === "true";
+  const intervalSeconds = Math.max(2, Number(interval ?? "5"));
 
   return (
     <main className="flex min-h-screen flex-1 flex-col bg-[#14110d] text-white">
@@ -36,7 +41,7 @@ export default async function GalleryPage({
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-gold-soft">
-              Canlı Galeri
+              {isSlideshow ? "Slayt Gösterisi" : "Canlı Galeri"}
             </p>
             <h1 className="font-serif text-2xl sm:text-3xl">
               {couple.groom_name} &amp; {couple.bride_name}
@@ -52,8 +57,17 @@ export default async function GalleryPage({
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-7xl flex-1 p-3 sm:p-5">
-        <GalleryGrid coupleId={couple.id} initialPhotos={photos} />
+      <div
+        className={`mx-auto w-full ${
+          isSlideshow ? "" : "max-w-7xl p-3 sm:p-5"
+        } flex-1`}
+      >
+        <GalleryGrid
+          coupleId={couple.id}
+          initialPhotos={photos}
+          mode={isSlideshow ? "slideshow" : "grid"}
+          slideshowInterval={intervalSeconds}
+        />
       </div>
     </main>
   );

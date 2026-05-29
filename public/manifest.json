@@ -1,0 +1,19 @@
+{
+  "name": "BiKareBırak — Dijital Düğün Asistanı",
+  "short_name": "BiKareBırak",
+  "description": "Düğününüzün her karesi tek bir havuzda. Dijital davetiye, LCV ve canlı fotoğraf galerisi.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdfbf7",
+  "theme_color": "#c2a14d",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

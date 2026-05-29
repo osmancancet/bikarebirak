@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
@@ -19,6 +19,22 @@ export const metadata: Metadata = {
   title: "BiKareBırak — Dijital Düğün Asistanı",
   description:
     "Düğününüzün her karesi tek bir havuzda. Dijital davetiye, LCV ve canlı fotoğraf galerisi.",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "BiKareBırak",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#c2a14d",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -31,7 +47,9 @@ export default function RootLayout({
       lang="tr"
       className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

@@ -83,6 +83,28 @@ export function CreateCoupleForm() {
           />
         </div>
 
+        <div>
+          <Label htmlFor="dress_code">Kıyafet Kodu</Label>
+          <Input
+            id="dress_code"
+            name="dress_code"
+            placeholder="Smart Casual · Beyazdan kaçınılması rica olunur"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="program">Program (her satır: SAAT=Etkinlik)</Label>
+          <Textarea
+            id="program"
+            name="program"
+            placeholder={"16:00=Nikah\n18:00=Kokteyl\n20:00=Yemek\n22:00=Müzik"}
+            rows={5}
+          />
+          <p className="mt-1 text-xs text-ink-soft">
+            Boş bırakırsanız davetiyede program bölümü görünmez.
+          </p>
+        </div>
+
         {state.error && <p className="text-sm text-rose-gold">{state.error}</p>}
         {state.success && (
           <p className="flex items-center gap-2 text-sm text-green-700">
