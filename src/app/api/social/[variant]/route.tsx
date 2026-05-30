@@ -726,7 +726,7 @@ async function renderDemoInvite(weddingDateIso: string | null) {
             marginTop: 28,
           }}
         >
-          Abdurrahman
+          Şevval
         </div>
         <div
           style={{
@@ -748,7 +748,7 @@ async function renderDemoInvite(weddingDateIso: string | null) {
             marginTop: 4,
           }}
         >
-          Şevval
+          Abdurrahman
         </div>
 
         <Divider width={100} />

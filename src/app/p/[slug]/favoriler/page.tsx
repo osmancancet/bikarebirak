@@ -36,7 +36,7 @@ export default async function FavoritesPage({
               <Star className="inline h-3 w-3" fill="currentColor" /> Favoriler
             </p>
             <h1 className="font-serif text-2xl">
-              {couple.groom_name} &amp; {couple.bride_name}
+              {couple.bride_name} &amp; {couple.groom_name}
             </h1>
           </div>
         </div>

@@ -119,7 +119,7 @@ Premium düğün hak ettiğiniz ürün ile 💎`,
 
 Çiftinize özel slug + zarif tasarım. Misafiriniz linke tıkladığı anda geri sayım, mekan haritası ve katılım formu önünde.
 
-Bizden bir örnek 👉 bikarebirak.com/ornek
+Bizden bir örnek 👉 bikarebırak.com/ornek
 
 Daha fazlası için DM açık 🤍`,
     hashtags: [

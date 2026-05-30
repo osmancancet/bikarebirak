@@ -176,7 +176,7 @@ const faqs = [
 ];
 
 export default function Home() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikarebirak.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikarebırak.com";
 
   const organizationLd = {
     "@context": "https://schema.org",

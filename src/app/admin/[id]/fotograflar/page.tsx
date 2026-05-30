@@ -33,7 +33,7 @@ export default async function PhotosModerationPage({
           Fotoğraf Moderasyonu
         </h1>
         <p className="mt-1 text-sm text-ink-soft">
-          {couple.groom_name} & {couple.bride_name} · {photos.length} fotoğraf
+          {couple.bride_name} & {couple.groom_name} · {photos.length} fotoğraf
         </p>
       </header>
 

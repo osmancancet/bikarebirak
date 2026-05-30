@@ -200,7 +200,7 @@ export default async function CouplePortalPage({
 
         {/* Davetiye paylaşım şablonu */}
         <InviteShareCard
-          coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+          coupleLabel={`${couple.bride_name} & ${couple.groom_name}`}
           inviteUrl={inviteUrl}
           title="Misafirlerinize Davetiye Gönderin"
           subtitle="WhatsApp Web/iOS uygulamasını açar; kontağı seçip gönderirsiniz."

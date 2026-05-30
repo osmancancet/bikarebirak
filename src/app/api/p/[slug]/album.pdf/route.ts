@@ -62,7 +62,7 @@ export async function GET(
     size: "A4",
     margins: { top: 50, bottom: 50, left: 50, right: 50 },
     info: {
-      Title: `${couple.groom_name} & ${couple.bride_name} — Düğün Albümü`,
+      Title: `${couple.bride_name} & ${couple.groom_name} — Düğün Albümü`,
       Author: "BiKareBırak",
     },
   });
@@ -134,7 +134,7 @@ export async function GET(
       .fontSize(9)
       .font("Helvetica")
       .text(
-        `${couple.groom_name} & ${couple.bride_name}`,
+        `${couple.bride_name} & ${couple.groom_name}`,
         50,
         30,
         { align: "left", characterSpacing: 2 }

@@ -29,7 +29,7 @@ export async function GET(
   }
 
   const fontData = await loadFont();
-  const fullName = `${couple.groom_name} & ${couple.bride_name}`;
+  const fullName = `${couple.bride_name} & ${couple.groom_name}`;
   const dateStr = formatWeddingDate(couple.wedding_date);
 
   return new ImageResponse(

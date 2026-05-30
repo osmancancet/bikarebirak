@@ -97,7 +97,7 @@ BiKareBırak bu trendlerin hepsini standart pakete dahil ediyor; hangi temaları
 - **Drive klasör linki**: Yaşlı misafir 'klasöre yükleme' yapmaz.
 
 ## Doğru yöntem: Masada QR Kod
-- Çiftinize özel bir link üretiyoruz: \`bikarebirak.com/cift-slug/yukle\`
+- Çiftinize özel bir link üretiyoruz: \`bikarebırak.com/cift-slug/yukle\`
 - Masalardaki QR'ı misafir telefonundan okutuyor
 - Tek tıkla galerisi veya kamerası açılıyor
 - iPhone HEIC otomatik JPEG'e dönüştürülüyor

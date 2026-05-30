@@ -75,7 +75,7 @@ export default async function CoupleDetailPage({
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-4xl font-medium">
-            {couple.groom_name} & {couple.bride_name}
+            {couple.bride_name} & {couple.groom_name}
           </h1>
           <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-soft">
             <span className="flex items-center gap-1.5">
@@ -112,7 +112,7 @@ export default async function CoupleDetailPage({
           </a>
           <DeleteCoupleButton
             coupleId={couple.id}
-            coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+            coupleLabel={`${couple.bride_name} & ${couple.groom_name}`}
           />
         </div>
       </header>
@@ -140,19 +140,19 @@ export default async function CoupleDetailPage({
         <QrPanel
           slug={couple.slug}
           baseUrl={baseUrl}
-          coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+          coupleLabel={`${couple.bride_name} & ${couple.groom_name}`}
         />
       </section>
 
       {/* Çift portalı linki */}
       <PortalLinkCard
-        coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+        coupleLabel={`${couple.bride_name} & ${couple.groom_name}`}
         portalUrl={portalUrl}
       />
 
       {/* Davetiye paylaşım şablonu */}
       <InviteShareCard
-        coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+        coupleLabel={`${couple.bride_name} & ${couple.groom_name}`}
         inviteUrl={`${baseUrl}/${couple.slug}`}
       />
 

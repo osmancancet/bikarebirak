@@ -14,7 +14,7 @@ export async function generateMetadata({
   const couple = await getCoupleBySlug(cift_slug);
   return {
     title: couple
-      ? `Fotoğraf Yükle — ${couple.groom_name} & ${couple.bride_name}`
+      ? `Fotoğraf Yükle — ${couple.bride_name} & ${couple.groom_name}`
       : "Fotoğraf Yükle",
   };
 }
@@ -32,7 +32,7 @@ export default async function UploadPage({
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-12">
       <header className="mb-10 text-center">
         <p className="text-sm uppercase tracking-[0.25em] text-gold">
-          {couple.groom_name} & {couple.bride_name}
+          {couple.bride_name} & {couple.groom_name}
         </p>
         <h1 className="mt-3 font-serif text-4xl">Anılarınızı Paylaşın</h1>
         <p className="mt-2 max-w-xs text-ink-soft">

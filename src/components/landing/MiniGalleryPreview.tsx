@@ -54,7 +54,7 @@ export function MiniGalleryPreview() {
           </span>
           Canlı
         </span>
-        <span className="text-xs text-white/40">aslıvemert.bikarebirak.com</span>
+        <span className="text-xs text-white/40">aslıvemert.bikarebırak.com</span>
       </div>
 
       <div className="grid grid-cols-4 gap-2">

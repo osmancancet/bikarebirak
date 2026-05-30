@@ -34,7 +34,7 @@ export async function generateMetadata({
   const couple = await getCoupleBySlug(cift_slug);
   if (!couple) return { title: "Davetiye bulunamadı" };
 
-  const title = `${couple.groom_name} & ${couple.bride_name} — Düğün Davetiyesi`;
+  const title = `${couple.bride_name} & ${couple.groom_name} — Düğün Davetiyesi`;
   const description =
     couple.welcome_message ?? `${couple.venue_name} · Düğün davetiyesi`;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
@@ -96,7 +96,7 @@ export default async function InvitationPage({
       {/* Paylaş butonu — sağ üst */}
       <div className="absolute right-4 top-4 sm:right-8 sm:top-8">
         <ShareButton
-          title={`${couple.groom_name} & ${couple.bride_name} — Düğün Davetiyesi`}
+          title={`${couple.bride_name} & ${couple.groom_name} — Düğün Davetiyesi`}
           url={shareUrl}
         />
       </div>
@@ -106,10 +106,10 @@ export default async function InvitationPage({
         <p className="text-sm uppercase tracking-[0.3em] text-gold">
           Evleniyoruz
         </p>
-        <h1 className="mt-5 font-serif text-5xl leading-tight sm:text-7xl">
-          {couple.groom_name}
-          <span className="mx-3 text-gold-gradient">&amp;</span>
+        <h1 className="mt-5 font-serif text-4xl leading-[1.05] sm:text-6xl md:text-7xl">
           {couple.bride_name}
+          <span className="mx-3 text-gold-gradient">&amp;</span>
+          {couple.groom_name}
         </h1>
         <div className="my-6 h-px w-40 gold-divider" />
         <p className="flex items-center gap-2 text-lg text-ink-soft">

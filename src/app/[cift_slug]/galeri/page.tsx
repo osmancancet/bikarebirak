@@ -14,7 +14,7 @@ export async function generateMetadata({
   const couple = await getCoupleBySlug(cift_slug);
   return {
     title: couple
-      ? `Canlı Galeri — ${couple.groom_name} & ${couple.bride_name}`
+      ? `Canlı Galeri — ${couple.bride_name} & ${couple.groom_name}`
       : "Canlı Galeri",
   };
 }
@@ -44,7 +44,7 @@ export default async function GalleryPage({
               {isSlideshow ? "Slayt Gösterisi" : "Canlı Galeri"}
             </p>
             <h1 className="font-serif text-2xl sm:text-3xl">
-              {couple.groom_name} &amp; {couple.bride_name}
+              {couple.bride_name} &amp; {couple.groom_name}
             </h1>
           </div>
           <span className="flex items-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70">

@@ -20,7 +20,7 @@ export default async function MasaPage({
     <div>
       <PrintableCards
         coupleId={couple.id}
-        coupleLabel={`${couple.groom_name} & ${couple.bride_name}`}
+        coupleLabel={`${couple.bride_name} & ${couple.groom_name}`}
         uploadUrl={uploadUrl}
       />
     </div>

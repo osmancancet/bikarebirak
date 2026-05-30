@@ -10,9 +10,9 @@ export function FauxInvitationPreview() {
         Evleniyoruz
       </p>
       <p className="mt-3 font-serif text-xl leading-tight text-ink">
-        Abdurrahman
-        <span className="mx-1.5 text-gold-gradient">&amp;</span>
         Şevval
+        <span className="mx-1.5 text-gold-gradient">&amp;</span>
+        Abdurrahman
       </p>
       <div className="my-2 flex items-center gap-1.5">
         <span className="h-px w-6 bg-gradient-to-r from-transparent to-gold/70" />

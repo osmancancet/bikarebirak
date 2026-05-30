@@ -15,7 +15,7 @@ export function CouplesSearch({ couples }: { couples: Couple[] }) {
     const needle = q.trim().toLocaleLowerCase("tr-TR");
     if (!needle) return couples;
     return couples.filter((c) => {
-      const hay = `${c.groom_name} ${c.bride_name} ${c.slug} ${c.venue_name}`
+      const hay = `${c.bride_name} ${c.groom_name} ${c.slug} ${c.venue_name}`
         .toLocaleLowerCase("tr-TR");
       return hay.includes(needle);
     });
@@ -52,7 +52,7 @@ export function CouplesSearch({ couples }: { couples: Couple[] }) {
               <Card className="flex items-center justify-between p-5 transition-colors hover:bg-ivory">
                 <div>
                   <p className="text-xl font-medium">
-                    {c.groom_name} & {c.bride_name}
+                    {c.bride_name} & {c.groom_name}
                   </p>
                   <p className="mt-1 flex items-center gap-1.5 text-sm text-ink-soft">
                     <Calendar className="h-3.5 w-3.5" />

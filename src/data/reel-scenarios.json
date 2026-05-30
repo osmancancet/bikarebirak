@@ -1,0 +1,83 @@
+{
+  "elevenlabs": {
+    "model": "eleven_multilingual_v2",
+    "voiceId": "hpp4J3VqNfWAUOO0d1Us",
+    "voiceName": "Bella",
+    "voiceSettings": {
+      "stability": 0.6,
+      "similarity_boost": 0.85,
+      "style": 0.15,
+      "use_speaker_boost": true
+    }
+  },
+  "reels": [
+    {
+      "id": "her-kare",
+      "title": "Düğününün her karesi",
+      "durationSec": 30,
+      "scenes": [
+        {
+          "name": "1-landing-hero",
+          "url": "/",
+          "startSec": 0,
+          "endSec": 4,
+          "scene": "Siyah → altın 'BiKareBırak' logosu fade-in",
+          "music": "Soft piano başlangıç",
+          "voiceover": "Hayatınızın en özel günü. Ama o anların çoğunu, hiç göremeyeceksiniz."
+        },
+        {
+          "name": "2-demo-invite",
+          "url": "/ornek",
+          "startSec": 4,
+          "endSec": 10,
+          "scene": "Telefon mockup → örnek davetiye açılıyor, geri sayım görünüyor",
+          "music": "Crescendo",
+          "voiceover": "BiKareBırak, misafirlerinizin yakaladığı her detayı, size özel bir albümde toplar."
+        },
+        {
+          "name": "3-sevval-abdurrahman",
+          "url": "/sevval-abdurrahman",
+          "startSec": 10,
+          "endSec": 16,
+          "scene": "Şevval & Abdurrahman davetiyesi — geri sayım canlı, mekan kartı",
+          "music": "Müzik devam",
+          "voiceover": "Masadaki karekod yeter. Uygulama yok, kayıt yok, beklemek yok."
+        },
+        {
+          "name": "4-yukle",
+          "url": "/sevval-abdurrahman/yukle",
+          "startSec": 16,
+          "endSec": 22,
+          "scene": "Yükleme akışı: büyük buton + progress bar + konfeti",
+          "music": "Müzik enerjik",
+          "voiceover": "Onlar paylaşır… siz, anı yaşarsınız."
+        },
+        {
+          "name": "5-galeri-canli",
+          "url": "/",
+          "startSec": 22,
+          "endSec": 27,
+          "scene": "Landing'deki MiniGalleryPreview — canlı düşen kareler (dark)",
+          "music": "Pik",
+          "voiceover": "Salonda, anılarınız siz dans ederken canlı olarak şekillenir."
+        },
+        {
+          "name": "6-final-cta",
+          "url": "/",
+          "startSec": 27,
+          "endSec": 30,
+          "scene": "Final: 'BiKareBırak.com' + WhatsApp CTA + fiyat kartı",
+          "music": "Müzik fade",
+          "voiceover": "BiKareBırak. Düğününüzün hafızası, hep yanınızda."
+        }
+      ]
+    }
+  ],
+  "tips": [
+    "Telefon emülatörü: Chrome DevTools → Toggle device toolbar → 'iPhone 14 Pro' → QuickTime 'New Screen Recording' + 'High Quality'",
+    "Canlı çekim sahneleri (gerçek QR okutma) iPhone'da 1080p 30fps",
+    "Müzik için telifsiz öneri: Pixabay Music 'wedding piano' araması veya Epidemic Sound aboneliği",
+    "Altyazı için CapCut (ücretsiz mobil app) — alternatif: scripts/make-reel.mjs üretilen .srt dosyasını CapCut'a sürükle",
+    "⚠️ Telif: Spotify/YouTube'dan rastgele şarkı kullanma — Instagram telifli müziği susturur veya reel'i kaldırır."
+  ]
+}

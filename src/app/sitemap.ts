@@ -3,7 +3,7 @@ import { POSTS } from "@/data/blog";
 import { CITIES } from "@/data/cities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikarebirak.com";
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bikarebırak.com";
   const now = new Date();
 
   return [
