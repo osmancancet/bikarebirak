@@ -103,10 +103,10 @@ export default function OrnekPage() {
         <p className="text-sm uppercase tracking-[0.3em] text-gold">
           Evleniyoruz
         </p>
-        <h1 className="mt-5 font-serif text-5xl leading-tight sm:text-7xl">
-          {DEMO.groom_name}
-          <span className="mx-3 text-gold-gradient">&amp;</span>
-          {DEMO.bride_name}
+        <h1 className="mt-5 flex flex-col items-center font-serif text-5xl leading-[1.05] sm:flex-row sm:justify-center sm:gap-x-3 sm:text-7xl">
+          <span>{DEMO.bride_name}</span>
+          <span className="text-4xl text-gold-gradient sm:text-7xl">&amp;</span>
+          <span>{DEMO.groom_name}</span>
         </h1>
         <div className="my-6 h-px w-40 gold-divider" />
         <p className="flex items-center gap-2 text-lg text-ink-soft">
